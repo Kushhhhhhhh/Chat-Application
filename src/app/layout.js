@@ -1,5 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider.js"
+import { ClerkProvider } from '@clerk/nextjs';
+import Navbar from "@/components/Navbar.jsx";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,9 +24,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('/background.jpg')] bg-cover bg-center min-h-screen backdrop-blur`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystems
+          disableTransitionOnChange
+        >
+          <ClerkProvider>
+            <Navbar />
+            {children}
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
